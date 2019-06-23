@@ -56,9 +56,9 @@ public class SimpleHttpClient {
         try {
             return get(url, ConvertUtil.convert2Map(object), connectionTimeOut, readTimeOut);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("SimpleHttpCleint get method error url={}", url, e);
         }
-        return "";
+        return null;
     }
 
     public static String get(String url, Map<String, Object> para) {
@@ -146,6 +146,7 @@ public class SimpleHttpClient {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     private static void populateParam(MultipartEntityBuilder builder, String key, Object value) {
         ContentType defaultType = ContentType.create("text/plain", Consts.UTF_8);
         if (value instanceof Byte) {
@@ -161,12 +162,10 @@ public class SimpleHttpClient {
             builder.addTextBody(key, value.toString(), defaultType);
         } else if (value instanceof List) {
             List list = (List) value;
-            if (list.size() > 0) {
-                Object element = list.get(0);
-                if (element instanceof FileItem) {
-                    FileItem item = (FileItem) element;
-                    builder.addBinaryBody(key, item.getBytes(), ContentType.create(item.getFileName()), item.getFileName());
-                }
+            Object element;
+            if (list.size() > 0 && (element = list.get(0)) instanceof FileItem) {
+                FileItem item = (FileItem) element;
+                builder.addBinaryBody(key, item.getBytes(), ContentType.create(item.getFileName()), item.getFileName());
             }
         } else if (value instanceof Map) {
             Map map = (Map) value;
@@ -176,8 +175,7 @@ public class SimpleHttpClient {
                 Object iteratorValue = ((Map.Entry) nextValue).getValue();
                 if (iteratorValue instanceof List) {
                     List listValue = (List) iteratorValue;
-                    for (int i = 0; i < listValue.size(); i++) {
-                        Object element = listValue.get(i);
+                    for (Object element : listValue) {
                         if (element instanceof FileItem) {
                             FileItem item = (FileItem) element;
                             builder.addBinaryBody(((Map.Entry) nextValue).getKey().toString(), item.getBytes(), ContentType.create(item.getFileName()), item.getFileName());
