@@ -10,44 +10,14 @@ import io.netty.handler.codec.http.HttpHeaderValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.concurrent.CompletableFuture;
 
 /**
  * author: mimu
  * date: 2018/10/21
  */
-public class SimpleHandler {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleHandler.class);
-    private Object object;
-    private Method method;
-
-    public Object getObject() {
-        return object;
-    }
-
-    public void setObject(Object object) {
-        this.object = object;
-    }
-
-    public Method getMethod() {
-        return method;
-    }
-
-    public void setMethod(Method method) {
-        this.method = method;
-    }
-
-    private Object invoke(SimpleHttpRequest request, SimpleHttpResponse response) {
-        try {
-            this.method.setAccessible(true);
-            return this.method.invoke(object, request, response);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            LOGGER.error("SimpleHandler execute error", e);
-        }
-        return null;
-    }
+public class SimpleHandler extends ActionHandler {
+    private static final Logger logger = LoggerFactory.getLogger(SimpleHandler.class);
 
     public void execute(ChannelHandlerContext context, SimpleHttpRequest request, SimpleHttpResponse response, long startTime) {
         /*
@@ -57,7 +27,7 @@ public class SimpleHandler {
             CompletableFuture.runAsync(() -> invoke(request, response))
                     .thenRun(() -> context.executor().execute(() -> writeMessage(context, request, response, startTime)))
                     .exceptionally(throwable -> {
-                        writeError(context, request, response, throwable, startTime);
+                        context.executor().execute(() -> writeError(context, request, response, throwable, startTime));
                         context.close();
                         return null;
                     });
@@ -90,7 +60,7 @@ public class SimpleHandler {
             channelHandlerContext.writeAndFlush(simpleHttpResponse.getResponse()).addListener((ChannelFutureListener) future -> {
                 future.channel().close();
                 if (future.isSuccess()) {
-                    LOGGER.info("server handle over url={},cost={} ms", simpleHttpRequest.getUrl(), System.currentTimeMillis() - startTime);
+                    logger.info("server handle over url={},cost={} ms", simpleHttpRequest.getUrl(), System.currentTimeMillis() - startTime);
                 }
             });
         }
@@ -98,7 +68,7 @@ public class SimpleHandler {
             simpleHttpResponse.getResponse().headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
             channelHandlerContext.writeAndFlush(simpleHttpResponse.getResponse()).addListener((ChannelFutureListener) future -> {
                 if (future.isSuccess()) {
-                    LOGGER.info("server handle over url={},cost={} ms", simpleHttpRequest.getUrl(), System.currentTimeMillis() - startTime);
+                    logger.info("server handle over url={},cost={} ms", simpleHttpRequest.getUrl(), System.currentTimeMillis() - startTime);
                 }
             });
         }

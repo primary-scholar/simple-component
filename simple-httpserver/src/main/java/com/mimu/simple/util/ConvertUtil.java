@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * date: 2018/10/28
  */
 public class ConvertUtil {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConvertUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(ConvertUtil.class);
     private static Map<Class<?>, Map<PropertyDescriptor, Method>> writePropertyDescriptorMap = new ConcurrentHashMap<>();
     private static Map<Class<?>, Map<PropertyDescriptor, Method>> readPropertyDescriptorMap = new ConcurrentHashMap<>();
 
@@ -43,7 +43,7 @@ public class ConvertUtil {
                     try {
                         setFieldValue(typeName, descriptor.getWriteMethod(), target, value);
                     } catch (Exception e) {
-                        LOGGER.error("convert error", e);
+                        logger.error("convert error", e);
                     }
                 }
             }
@@ -66,7 +66,7 @@ public class ConvertUtil {
                     aNewMap.put(name, value);
                 }
             } catch (IllegalAccessException | InvocationTargetException e) {
-                LOGGER.error("convert2Map error", e);
+                logger.error("convert2Map error", e);
             }
         });
         return aNewMap;
@@ -88,7 +88,7 @@ public class ConvertUtil {
                 }
                 writePropertyDescriptorMap.put(clazz, writeMethodMap);
             } catch (Exception e) {
-                LOGGER.error("ConvertUtil initWritePropertyDescriptorMap error", e);
+                logger.error("ConvertUtil initWritePropertyDescriptorMap error", e);
             }
         }
     }
@@ -108,7 +108,7 @@ public class ConvertUtil {
                 }
                 readPropertyDescriptorMap.put(clazz, readMethodMap);
             } catch (Exception e) {
-                LOGGER.error("ConvertUtil initWritePropertyDescriptorMap error", e);
+                logger.error("ConvertUtil initWritePropertyDescriptorMap error", e);
             }
         }
     }
@@ -163,7 +163,7 @@ public class ConvertUtil {
                         }
                     }
                 } catch (IllegalAccessException | InvocationTargetException e) {
-                    LOGGER.error("ConvertUtil dealArgument error", e);
+                    logger.error("ConvertUtil dealArgument error", e);
                 }
             }
         }

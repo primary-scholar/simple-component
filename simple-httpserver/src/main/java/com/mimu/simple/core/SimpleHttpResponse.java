@@ -14,7 +14,7 @@ import java.io.UnsupportedEncodingException;
  * date: 2018/10/21
  */
 public class SimpleHttpResponse {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleHttpResponse.class);
+    private static final Logger logger = LoggerFactory.getLogger(SimpleHttpResponse.class);
     private static final String contentEncoding = "UTF-8";
     private static final String contentType = "application/json";
     private FullHttpResponse httpResponse;
@@ -45,7 +45,7 @@ public class SimpleHttpResponse {
             httpResponse.headers().set(HttpHeaderNames.CONTENT_ENCODING, encoding);
             httpResponse.content().writeBytes(result.getBytes(contentEncoding));
         } catch (UnsupportedEncodingException e) {
-            LOGGER.error("SimpleHttpResponse error", e);
+            logger.error("SimpleHttpResponse error", e);
         }
     }
 

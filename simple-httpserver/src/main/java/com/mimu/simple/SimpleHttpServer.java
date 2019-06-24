@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  * date: 2018/10/21
  */
 public class SimpleHttpServer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleHttpServer.class);
+    private static final Logger logger = LoggerFactory.getLogger(SimpleHttpServer.class);
     private static Builder builder = new Builder();
     private int contextLength;
     private int port;
@@ -74,7 +74,7 @@ public class SimpleHttpServer {
                 });
         try {
             ChannelFuture channelFuture = server.bind(port).sync();
-            LOGGER.info("server start at port {} ...", port);
+            logger.info("server start at port {} ...", port);
             channelFuture.channel().closeFuture().addListener((ChannelFutureListener) future -> {
                 connectionGroup.shutdownGracefully();
                 workerGroup.shutdownGracefully();
@@ -85,7 +85,7 @@ public class SimpleHttpServer {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             connectionGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
-            LOGGER.info("server shutdown ...");
+            logger.info("server shutdown ...");
         }));
     }
 

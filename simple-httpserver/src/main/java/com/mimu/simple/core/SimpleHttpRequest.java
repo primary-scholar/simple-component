@@ -28,7 +28,7 @@ import java.util.*;
  * date: 2018/10/21
  */
 public class SimpleHttpRequest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleHttpRequest.class);
+    private static final Logger logger = LoggerFactory.getLogger(SimpleHttpRequest.class);
     private Channel channel;
     private FullHttpRequest request;
     private String url;
@@ -136,7 +136,7 @@ public class SimpleHttpRequest {
             url = decoder.path();
             return fullUri;
         } catch (UnsupportedEncodingException e) {
-            LOGGER.error("initFullUri error", e);
+            logger.error("initFullUri error", e);
         }
         return null;
     }
@@ -190,7 +190,7 @@ public class SimpleHttpRequest {
                         }
                     }
                 } catch (IOException e) {
-                    LOGGER.error("SimpleHttpRequest initParameters error", e);
+                    logger.error("SimpleHttpRequest initParameters error", e);
                 }
             }
         }

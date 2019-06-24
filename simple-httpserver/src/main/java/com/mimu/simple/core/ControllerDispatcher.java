@@ -17,7 +17,7 @@ import java.util.*;
  * date: 2018/10/22
  */
 public class ControllerDispatcher {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ControllerDispatcher.class);
+    private static final Logger logger = LoggerFactory.getLogger(ControllerDispatcher.class);
     private Map<String, SimpleHandler> handlerMap;
     private AnnotationConfigApplicationContext context;
 
@@ -63,7 +63,7 @@ public class ControllerDispatcher {
                     Method[] methods = clazz.getDeclaredMethods();
                     getHandler(handlerMap, object, methods);
                 } catch (InstantiationException | IllegalAccessException e) {
-                    LOGGER.error("ControllerDispatcher resolve Handler error", e);
+                    logger.error("ControllerDispatcher resolve Handler error", e);
                 }
             }
         }

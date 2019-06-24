@@ -26,7 +26,7 @@ import java.util.Map;
  */
 @SimpleController
 public class InnerController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(InnerController.class);
+    private static final Logger logger = LoggerFactory.getLogger(InnerController.class);
     private UserService userService;
 
     @Autowired
@@ -40,13 +40,13 @@ public class InnerController {
             UserRequest userRequest = ConvertUtil.convert(request, UserRequest.class);
             UserInfoData userInfoData = userService.getUserInfoData(userRequest);
             response.response(userInfoData);
-            LOGGER.info("InnerController getInfo result={}", JSONObject.toJSONString(userInfoData));
+            logger.info("InnerController getInfo result={}", JSONObject.toJSONString(userInfoData));
         } catch (Exception e) {
             JSONObject result = new JSONObject();
             result.put("code", 500);
             result.put("msg", "something is wrong");
             response.response(result);
-            LOGGER.error("InnerController getInfo error", e);
+            logger.error("InnerController getInfo error", e);
         }
 
     }
@@ -72,13 +72,13 @@ public class InnerController {
                 result.put("fileLength", fileLength);
             }
             response.response(result);
-            LOGGER.info("InnerController getFeedInfo result={}", result);
+            logger.info("InnerController getFeedInfo result={}", result);
         } catch (Exception e) {
             JSONObject result = new JSONObject();
             result.put("code", 500);
             result.put("msg", "something is wrong");
             response.response(result);
-            LOGGER.error("InnerController getFeedInfo error", e);
+            logger.error("InnerController getFeedInfo error", e);
         }
     }
 
@@ -91,13 +91,13 @@ public class InnerController {
             result.put("code", 200);
             result.put("msg", "sleep over");
             response.response(result);
-            LOGGER.info("InnerController testInfo result={}",result);
+            logger.info("InnerController testInfo result={}",result);
         } catch (Exception e) {
             JSONObject result = new JSONObject();
             result.put("code", 500);
             result.put("msg", "something is wrong");
             response.response(result);
-            LOGGER.error("InnerController testInfo error", e);
+            logger.error("InnerController testInfo error", e);
         }
     }
 }
