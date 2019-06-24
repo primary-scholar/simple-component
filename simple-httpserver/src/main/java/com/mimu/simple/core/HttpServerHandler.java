@@ -1,6 +1,5 @@
 package com.mimu.simple.core;
 
-import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import org.slf4j.Logger;
