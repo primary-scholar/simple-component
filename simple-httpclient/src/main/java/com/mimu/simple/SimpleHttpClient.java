@@ -2,6 +2,7 @@ package com.mimu.simple;
 
 import com.mimu.simple.core.FileItem;
 import com.mimu.simple.util.ConvertUtil;
+import com.sun.org.apache.regexp.internal.REUtil;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -24,10 +25,12 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+import java.util.function.Supplier;
 
 public class SimpleHttpClient {
     private static final Logger logger = LoggerFactory.getLogger(SimpleHttpClient.class);
+    private static final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private static volatile CloseableHttpClient httpClient;
     private static int connectionTimeOut = 3000;
     private static int readTimeOut = 3000;
@@ -44,12 +47,24 @@ public class SimpleHttpClient {
         return get(url, null);
     }
 
+    public static Future<String> futureGet(String url) {
+        return futureGet(url, null);
+    }
+
     public static String get(String url, int connectionTimeOut, int readTimeOut) {
         return get(url, null, connectionTimeOut, readTimeOut);
     }
 
+    public static Future<String> futureGet(String url, int connectionTimeOut, int readTimeOut) {
+        return futureGet(url, null, connectionTimeOut, readTimeOut);
+    }
+
     public static String get(String url, Object object) {
         return get(url, object, connectionTimeOut, readTimeOut);
+    }
+
+    public static Future<String> futureGet(String url, Object object) {
+        return futureGet(url, object, connectionTimeOut, readTimeOut);
     }
 
     public static String get(String url, Object object, int connectionTimeOut, int readTimeOut) {
@@ -61,11 +76,32 @@ public class SimpleHttpClient {
         return null;
     }
 
+    public static Future<String> futureGet(String url, Object object, int connectionTimeOut, int readTimeOut) {
+        try {
+            return futureGet(url, ConvertUtil.convert2Map(object), connectionTimeOut, readTimeOut);
+        } catch (Exception e) {
+            logger.error("SimpleHttpCleint get method error url={}", url, e);
+            return CompletableFuture.supplyAsync(() -> null);
+        }
+    }
+
     public static String get(String url, Map<String, Object> para) {
         return get(url, para, connectionTimeOut, readTimeOut);
     }
 
+    public static Future<String> futureGet(String url, Map<String, Object> para) {
+        return futureGet(url, para, connectionTimeOut, readTimeOut);
+    }
+
     public static String get(String url, Map<String, Object> para, int connectionTimeOut, int readTimeOut) {
+        return getMethod(url, para, connectionTimeOut, readTimeOut);
+    }
+
+    public static Future<String> futureGet(String url, Map<String, Object> para, int connectionTimeOut, int readTimeOut) {
+        return CompletableFuture.supplyAsync(() -> getMethod(url, para, connectionTimeOut, readTimeOut));
+    }
+
+    private static String getMethod(String url, Map<String, Object> para, int connectionTimeOut, int readTimeOut) {
         String result = "";
         URIBuilder builder;
         try {
@@ -88,7 +124,7 @@ public class SimpleHttpClient {
             httpGet.setConfig(getRequestConfig(connectionTimeOut, readTimeOut));
             long startTime = System.currentTimeMillis();
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            logger.info("HttpClientUtil get method url={},para={},cost={}ms", System.currentTimeMillis() - startTime);
+            logger.info("HttpClientUtil get method url={},para={},cost={}ms", url, para, System.currentTimeMillis() - startTime);
             HttpEntity responseEntity = response.getEntity();
             if (responseEntity != null) {
                 result = EntityUtils.toString(responseEntity);
@@ -104,8 +140,16 @@ public class SimpleHttpClient {
         return post(url, para, connectionTimeOut, readTimeOut);
     }
 
+    public static Future<String> futurePost(String url, Map<String, Object> para) {
+        return futurePost(url, para, connectionTimeOut, readTimeOut);
+    }
+
     public static String post(String url, Object object) {
         return post(url, object, connectionTimeOut, readTimeOut);
+    }
+
+    public static Future<String> futurePost(String url, Object object) {
+        return futurePost(url, object, connectionTimeOut, readTimeOut);
     }
 
     public static String post(String url, Object object, int connectionTimeOut, int readTimeOut) {
@@ -114,10 +158,27 @@ public class SimpleHttpClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
+        return null;
+    }
+
+    public static Future<String> futurePost(String url, Object object, int connectionTimeOut, int readTimeOut) {
+        try {
+            return futurePost(url, ConvertUtil.convert2Map(object), connectionTimeOut, readTimeOut);
+        } catch (Exception e) {
+            logger.error("SimpleHttpCleint futurePost method error url={}", url, e);
+            return CompletableFuture.supplyAsync(() -> null);
+        }
     }
 
     public static String post(String url, Map<String, Object> para, int connectionTimeOut, int readTimeOut) {
+        return postMethod(url, para, connectionTimeOut, readTimeOut);
+    }
+
+    public static Future<String> futurePost(String url, Map<String, Object> para, int connectionTimeOut, int readTimeOut) {
+        return CompletableFuture.supplyAsync(() -> postMethod(url, para, connectionTimeOut, readTimeOut));
+    }
+
+    private static String postMethod(String url, Map<String, Object> para, int connectionTimeOut, int readTimeOut) {
         String result = "";
         try {
             URIBuilder uriBuilder = new URIBuilder(url);
