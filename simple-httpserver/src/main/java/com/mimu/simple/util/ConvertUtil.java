@@ -43,7 +43,7 @@ public class ConvertUtil {
                     try {
                         setFieldValue(typeName, descriptor.getWriteMethod(), target, value);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        LOGGER.error("convert error", e);
                     }
                 }
             }
@@ -65,10 +65,8 @@ public class ConvertUtil {
                     Object value = method.invoke(object);
                     aNewMap.put(name, value);
                 }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                LOGGER.error("convert2Map error", e);
             }
         });
         return aNewMap;

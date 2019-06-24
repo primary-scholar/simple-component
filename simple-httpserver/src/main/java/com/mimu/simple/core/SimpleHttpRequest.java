@@ -11,6 +11,7 @@ import io.netty.handler.codec.http.multipart.Attribute;
 import io.netty.handler.codec.http.multipart.FileUpload;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,7 @@ public class SimpleHttpRequest {
     public SimpleHttpRequest(Channel channel, FullHttpRequest request) {
         this.channel = channel;
         this.request = request;
-        parseRequest();
+        initFullUri();
     }
 
     public FullHttpRequest getRequest() {
@@ -87,6 +88,26 @@ public class SimpleHttpRequest {
         return inetAddress.getHostAddress();
     }
 
+    /**
+     * 获取 远程ip地址，需要nginx的支持，并开启 X-FORWARDED-FOR 选项
+     *
+     * @return
+     */
+    public final String getRemoteIpAddress() {
+        String xff = null;
+        for (String head : headers.keySet()) {
+            if ("X-FORWARDED-FOR".equalsIgnoreCase(head)) {
+                xff = headers.get(head);
+            }
+        }
+        if (StringUtils.isNotEmpty(xff)) {
+            int dotIndex = xff.indexOf(",");
+            return dotIndex > 0 ? xff.substring(0, dotIndex) : xff;
+        } else {
+            return getRemoteAddress();
+        }
+    }
+
     private String getPara(String key) {
         if (parameters.containsKey(key)) {
             List<String> value = parameters.get(key);
@@ -101,14 +122,13 @@ public class SimpleHttpRequest {
     }
 
 
-    private void parseRequest() {
-        initFullUri();
+    public void parseRequest() {
         initHeaders();
         initCookies();
         initParameters();
     }
 
-    private String initFullUri() {
+    public String initFullUri() {
         String fullUri = request.uri();
         try {
             fullUri = URLDecoder.decode(fullUri, "utf-8");
@@ -116,15 +136,14 @@ public class SimpleHttpRequest {
             url = decoder.path();
             return fullUri;
         } catch (UnsupportedEncodingException e) {
+            LOGGER.error("initFullUri error", e);
         }
         return null;
     }
 
     private void initHeaders() {
         HttpHeaders httpHeaders = request.headers();
-        Iterator<Map.Entry<String, String>> iterator = httpHeaders.entries().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, String> entry = iterator.next();
+        for (Map.Entry<String, String> entry : httpHeaders.entries()) {
             headers.put(entry.getKey(), entry.getValue());
         }
     }
@@ -132,9 +151,7 @@ public class SimpleHttpRequest {
     private void initCookies() {
         if (headers.containsKey("Cookies")) {
             String cookieString = headers.get("Cookies");
-            Iterator<Cookie> iterator = ServerCookieDecoder.STRICT.decode(cookieString).iterator();
-            while (iterator.hasNext()) {
-                Cookie cookie = iterator.next();
+            for (Cookie cookie : ServerCookieDecoder.STRICT.decode(cookieString)) {
                 cookies.put(cookie.name(), cookie.value());
             }
         }
@@ -144,16 +161,12 @@ public class SimpleHttpRequest {
         if (request.method().equals(HttpMethod.GET)) {
             QueryStringDecoder decoder = new QueryStringDecoder(Objects.requireNonNull(initFullUri()));
             Map<String, List<String>> requestParameters = decoder.parameters();
-            Iterator<Map.Entry<String, List<String>>> iterator = requestParameters.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<String, List<String>> entry = iterator.next();
+            for (Map.Entry<String, List<String>> entry : requestParameters.entrySet()) {
                 parameters.put(entry.getKey(), entry.getValue());
             }
         } else if (request.method().equals(HttpMethod.POST)) {
             HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(request);
-            Iterator<InterfaceHttpData> iterator = decoder.getBodyHttpDatas().iterator();
-            while (iterator.hasNext()) {
-                InterfaceHttpData data = iterator.next();
+            for (InterfaceHttpData data : decoder.getBodyHttpDatas()) {
                 try {
                     if (data.getHttpDataType() == InterfaceHttpData.HttpDataType.FileUpload) {
                         FileUpload fileUpload = (FileUpload) data;

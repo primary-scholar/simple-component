@@ -41,7 +41,8 @@ public class SimpleHttpServer {
     }
 
     public void startServer() {
-        ControllerDispatcher controllerDispatcher = new ControllerDispatcher(packages, supportSpring);
+        //ControllerDispatcher controllerDispatcher = new ControllerDispatcher(packages, supportSpring);
+        HttpServerHandler handler = new HttpServerHandler(new ControllerDispatcher(packages, supportSpring));
         EventLoopGroup connectionGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         ServerBootstrap server = new ServerBootstrap();
@@ -68,7 +69,7 @@ public class SimpleHttpServer {
                         }
                         channelPipeline.addLast(new HttpResponseEncoder());
                         channelPipeline.addLast(new ChunkedWriteHandler());
-                        channelPipeline.addLast(new HttpServerHandler(controllerDispatcher));
+                        channelPipeline.addLast(handler);
                     }
                 });
         try {
