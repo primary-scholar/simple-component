@@ -2,7 +2,6 @@ package com.mimu.simple;
 
 import com.mimu.simple.core.FileItem;
 import com.mimu.simple.util.ConvertUtil;
-import com.sun.org.apache.regexp.internal.REUtil;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
