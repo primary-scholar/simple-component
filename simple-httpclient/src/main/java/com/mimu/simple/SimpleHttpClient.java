@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.function.Supplier;
 
 public class SimpleHttpClient {
     private static final Logger logger = LoggerFactory.getLogger(SimpleHttpClient.class);
