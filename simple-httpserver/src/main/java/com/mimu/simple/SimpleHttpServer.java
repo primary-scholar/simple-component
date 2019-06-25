@@ -64,7 +64,7 @@ public class SimpleHttpServer {
                          */
                         channelPipeline.addLast(new HttpObjectAggregator(contextLength));
                         if (SimpleServerConfigManager.tcp_idle_switch()) {
-                            channelPipeline.addLast(new IdleStateHandler(10, 0, 0, TimeUnit.SECONDS));
+                            channelPipeline.addLast(new IdleStateHandler(SimpleServerConfigManager.tcp_read_idle_duration(), SimpleServerConfigManager.tcp_write_idle_duration(), 0, TimeUnit.SECONDS));
                             channelPipeline.addLast(new ServerIdleHandler());
                         }
                         channelPipeline.addLast(new HttpResponseEncoder());
