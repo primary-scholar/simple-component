@@ -28,10 +28,10 @@ public class ServerIdleHandler extends ChannelInboundHandlerAdapter {
             if (((IdleStateEvent) evt).state().equals(IdleState.READER_IDLE)) {
                 if (++idleTimes >= SimpleServerConfigManager.tcp_idle_times()) {
                     try {
-                        logger.warn("connection is idle, close it from server,address={}", ctx.channel().remoteAddress());
+                        logger.warn("close idle connection from server,address={}", ctx.channel().remoteAddress());
                         ctx.close();
                     } catch (Exception e) {
-                        logger.error("close idle connection error address={}", ctx.channel().remoteAddress());
+                        logger.error("close idle connection from server error address={}", ctx.channel().remoteAddress(), e);
                     }
                 } else {
                     logger.warn("connection lost heartbeat, address={}", ctx.channel().remoteAddress());
