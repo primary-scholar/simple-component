@@ -90,7 +90,7 @@ public class ConvertUtil {
                 }
                 writePropertyDescriptorMap.put(clazz, writeMethodMap);
             } catch (Exception e) {
-                logger.error("ConvertUtil initWritePropertyDescriptorMap error", e);
+                logger.error("initWritePropertyDescriptorMap error", e);
             }
         }
     }
@@ -110,7 +110,7 @@ public class ConvertUtil {
                 }
                 readPropertyDescriptorMap.put(clazz, readMethodMap);
             } catch (Exception e) {
-                logger.error("ConvertUtil initWritePropertyDescriptorMap error", e);
+                logger.error("initWritePropertyDescriptorMap error", e);
             }
         }
     }
@@ -165,7 +165,7 @@ public class ConvertUtil {
                         }
                     }
                 } catch (IllegalAccessException | InvocationTargetException e) {
-                    logger.error("ConvertUtil dealArgument error", e);
+                    logger.error("dealArgument error", e);
                 }
             }
         }
