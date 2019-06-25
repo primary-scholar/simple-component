@@ -28,7 +28,6 @@ import java.util.concurrent.*;
 
 public class SimpleHttpClient {
     private static final Logger logger = LoggerFactory.getLogger(SimpleHttpClient.class);
-    private static final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private static volatile CloseableHttpClient httpClient;
     private static int connectionTimeOut = 3000;
     private static int readTimeOut = 3000;
@@ -69,7 +68,7 @@ public class SimpleHttpClient {
         try {
             return get(url, ConvertUtil.convert2Map(object), connectionTimeOut, readTimeOut);
         } catch (Exception e) {
-            logger.error("SimpleHttpCleint get method error url={}", url, e);
+            logger.error("get method error url={}", url, e);
         }
         return null;
     }
@@ -78,7 +77,7 @@ public class SimpleHttpClient {
         try {
             return futureGet(url, ConvertUtil.convert2Map(object), connectionTimeOut, readTimeOut);
         } catch (Exception e) {
-            logger.error("SimpleHttpCleint get method error url={}", url, e);
+            logger.error("get method error url={}", url, e);
             return CompletableFuture.supplyAsync(() -> null);
         }
     }
@@ -122,14 +121,14 @@ public class SimpleHttpClient {
             httpGet.setConfig(getRequestConfig(connectionTimeOut, readTimeOut));
             long startTime = System.currentTimeMillis();
             CloseableHttpResponse response = httpClient.execute(httpGet);
-            logger.info("HttpClientUtil get method url={},para={},cost={}ms", url, para, System.currentTimeMillis() - startTime);
+            logger.info("get method url={},para={},cost={}ms", url, para, System.currentTimeMillis() - startTime);
             HttpEntity responseEntity = response.getEntity();
             if (responseEntity != null) {
                 result = EntityUtils.toString(responseEntity);
             }
             EntityUtils.consume(responseEntity);
         } catch (URISyntaxException | IOException e) {
-            logger.error("HttpClientUtil get method url={},para={}", url, para, e);
+            logger.error("get method url={},para={}", url, para, e);
         }
         return result;
     }
@@ -163,7 +162,7 @@ public class SimpleHttpClient {
         try {
             return futurePost(url, ConvertUtil.convert2Map(object), connectionTimeOut, readTimeOut);
         } catch (Exception e) {
-            logger.error("SimpleHttpCleint futurePost method error url={}", url, e);
+            logger.error("futurePost method error url={}", url, e);
             return CompletableFuture.supplyAsync(() -> null);
         }
     }
@@ -193,14 +192,14 @@ public class SimpleHttpClient {
             httpPost.setConfig(getRequestConfig(connectionTimeOut, readTimeOut));
             long startTime = System.currentTimeMillis();
             CloseableHttpResponse response = httpClient.execute(httpPost);
-            logger.info("HttpClientUtil post method url={},para={},cost={}ms", url, para, System.currentTimeMillis() - startTime);
+            logger.info("post method url={},para={},cost={}ms", url, para, System.currentTimeMillis() - startTime);
             HttpEntity responseEntity = response.getEntity();
             if (responseEntity != null) {
                 result = EntityUtils.toString(responseEntity);
             }
             EntityUtils.consume(responseEntity);
         } catch (IOException | URISyntaxException e) {
-            logger.error("HttpClientUtil post method url={},para={}", url, para, e);
+            logger.error("post method url={},para={}", url, para, e);
         }
         return result;
     }
