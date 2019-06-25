@@ -63,7 +63,9 @@ public class ConvertUtil {
             try {
                 if (!name.equalsIgnoreCase("class")) {
                     Object value = method.invoke(object);
-                    aNewMap.put(name, value);
+                    if (value != null) {
+                        aNewMap.put(name, value);
+                    }
                 }
             } catch (IllegalAccessException | InvocationTargetException e) {
                 logger.error("convert2Map error", e);
