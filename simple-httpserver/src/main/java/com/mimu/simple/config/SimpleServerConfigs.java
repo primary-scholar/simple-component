@@ -12,11 +12,11 @@ public class SimpleServerConfigs {
     public static final String TCP_IDLE_SWITCH = "server.tcp.heartbeat.switch";
     public static final String TCP_IDLE_SWITCH_DEFAULT = "true";
     public static final String TCP_IDLE_READ = "server.tcp.read.idle";
-    public static final String TCP_IDLE_READ_DURATION = "20";
+    public static final String TCP_IDLE_READ_DURATION = "1500";
     public static final String TCP_IDLE_WRITE = "server.tcp.write.idle";
-    public static final String TCP_IDLE_WRITE_DURATION = "20";
+    public static final String TCP_IDLE_WRITE_DURATION = "1500";
     public static final String TCP_IDLE_COUNT = "server.tcp.idle.times";
-    public static final String TCP_IDLE_TIMES = "6";
+    public static final String TCP_IDLE_TIMES = "3";
 
 
     /**
