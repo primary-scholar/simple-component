@@ -1,7 +1,5 @@
 package com.mimu.simple.config;
 
-import com.sun.org.apache.regexp.internal.RE;
-
 /**
  * author: mimu
  * date: 2019/5/28
