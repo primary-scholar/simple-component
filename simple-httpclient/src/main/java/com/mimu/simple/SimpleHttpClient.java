@@ -26,6 +26,10 @@ import java.net.URISyntaxException;
 import java.util.*;
 import java.util.concurrent.*;
 
+/**
+ * author: mimu
+ * date: 2018/10/28
+ */
 public class SimpleHttpClient {
     private static final Logger logger = LoggerFactory.getLogger(SimpleHttpClient.class);
     private static volatile CloseableHttpClient httpClient;

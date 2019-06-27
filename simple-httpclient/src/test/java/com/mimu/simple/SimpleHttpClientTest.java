@@ -4,7 +4,10 @@ import org.junit.Test;
 
 import java.util.concurrent.*;
 
-
+/**
+ * author: mimu
+ * date: 2018/10/28
+ */
 public class SimpleHttpClientTest {
 
     public static ExecutorService executorService = Executors.newFixedThreadPool(10);
