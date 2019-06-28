@@ -1,9 +1,9 @@
-package com.mimu.simple.core;
+package com.mimu.simple.httpserver.core;
 
 
-import com.mimu.simple.core.annotation.SimpleController;
-import com.mimu.simple.core.annotation.SimpleRequestUrl;
-import com.mimu.simple.util.ClassUtil;
+import com.mimu.simple.httpserver.core.annotation.SimpleController;
+import com.mimu.simple.httpserver.core.annotation.SimpleRequestUrl;
+import com.mimu.simple.httpserver.util.ClassUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

@@ -1,4 +1,4 @@
-package com.mimu.simple.core.annotation;
+package com.mimu.simple.httpserver.core.annotation;
 
 import org.springframework.stereotype.Component;
 

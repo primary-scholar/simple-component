@@ -1,4 +1,4 @@
-package com.mimu.simple;
+package com.mimu.simple.jdbcsupport;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,7 +26,7 @@ public abstract class BaseRepository<T> implements RowMapper<T>, InitializingBea
         init(writeDataSource, readDataSource);
     }
 
-    public abstract void init(DataSource write, DataSource read);
+    public abstract void init(DataSource writeDataSource, DataSource readDataSource);
 
     public void setWriteDataSource(DataSource dataSource) {
         this.writeDataSource = dataSource;

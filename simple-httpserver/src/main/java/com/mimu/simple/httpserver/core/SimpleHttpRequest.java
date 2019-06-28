@@ -1,4 +1,4 @@
-package com.mimu.simple.core;
+package com.mimu.simple.httpserver.core;
 
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.FullHttpRequest;

@@ -1,17 +1,17 @@
 package com.mimu.simple.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.mimu.simple.core.FileItem;
-import com.mimu.simple.core.SimpleHttpRequest;
-import com.mimu.simple.core.SimpleHttpResponse;
-import com.mimu.simple.core.annotation.SimpleController;
-import com.mimu.simple.core.annotation.SimpleRequestUrl;
+import com.mimu.simple.httpserver.core.FileItem;
+import com.mimu.simple.httpserver.core.SimpleHttpRequest;
+import com.mimu.simple.httpserver.core.SimpleHttpResponse;
+import com.mimu.simple.httpserver.core.annotation.SimpleController;
+import com.mimu.simple.httpserver.core.annotation.SimpleRequestUrl;
 import com.mimu.simple.request.FeedRequest;
 import com.mimu.simple.request.UserRequest;
 import com.mimu.simple.response.FeedInfoData;
 import com.mimu.simple.response.UserInfoData;
 import com.mimu.simple.service.UserService;
-import com.mimu.simple.util.ConvertUtil;
+import com.mimu.simple.httpserver.util.ConvertUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
-package com.mimu.simple.core;
+package com.mimu.simple.httpserver.core;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.mimu.simple.config.SimpleServerConfigManager;
+import com.mimu.simple.httpserver.config.SimpleServerConfigManager;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpHeaderNames;

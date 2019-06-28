@@ -1,4 +1,4 @@
-package com.mimu.simple.core;
+package com.mimu.simple.httpserver.core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

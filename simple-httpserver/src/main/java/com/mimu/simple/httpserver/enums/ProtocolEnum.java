@@ -1,4 +1,4 @@
-package com.mimu.simple.enums;
+package com.mimu.simple.httpserver.enums;
 
 /**
  * author: mimu

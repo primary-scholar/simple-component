@@ -1,6 +1,6 @@
 package com.mimu.simple.request;
 
-import com.mimu.simple.core.FileItem;
+import com.mimu.simple.httpserver.core.FileItem;
 
 import java.util.List;
 import java.util.Map;

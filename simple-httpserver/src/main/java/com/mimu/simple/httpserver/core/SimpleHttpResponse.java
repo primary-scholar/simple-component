@@ -1,4 +1,4 @@
-package com.mimu.simple.core;
+package com.mimu.simple.httpserver.core;
 
 
 import com.alibaba.fastjson.JSONObject;

@@ -1,9 +1,9 @@
-package com.mimu.simple;
+package com.mimu.simple.httpserver;
 
-import com.mimu.simple.config.SimpleServerConfigManager;
-import com.mimu.simple.core.ControllerDispatcher;
-import com.mimu.simple.core.HttpServerHandler;
-import com.mimu.simple.core.ServerIdleHandler;
+import com.mimu.simple.httpserver.config.SimpleServerConfigManager;
+import com.mimu.simple.httpserver.core.ControllerDispatcher;
+import com.mimu.simple.httpserver.core.HttpServerHandler;
+import com.mimu.simple.httpserver.core.ServerIdleHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;

@@ -1,4 +1,4 @@
-package com.mimu.simple.config;
+package com.mimu.simple.httpserver.config;
 
 /**
  * author: mimu

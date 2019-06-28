@@ -1,6 +1,6 @@
-package com.mimu.simple.core;
+package com.mimu.simple.httpserver.core;
 
-import com.mimu.simple.config.SimpleServerConfigManager;
+import com.mimu.simple.httpserver.config.SimpleServerConfigManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
