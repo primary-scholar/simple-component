@@ -1,6 +1,5 @@
 package com.mimu.simple.httpserver;
 
-import com.mimu.simple.SimpleHttpServer;
 import org.junit.Test;
 
 import java.util.Collections;

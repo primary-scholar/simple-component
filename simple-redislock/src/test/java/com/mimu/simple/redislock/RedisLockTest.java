@@ -1,4 +1,4 @@
-package com.mimu.simple;
+package com.mimu.simple.redislock;
 
 import org.junit.Test;
 
