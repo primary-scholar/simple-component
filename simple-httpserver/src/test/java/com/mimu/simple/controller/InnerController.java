@@ -4,8 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.mimu.simple.httpserver.core.FileItem;
 import com.mimu.simple.httpserver.core.SimpleHttpRequest;
 import com.mimu.simple.httpserver.core.SimpleHttpResponse;
-import com.mimu.simple.httpserver.core.annotation.SimpleController;
-import com.mimu.simple.httpserver.core.annotation.SimpleRequestUrl;
 import com.mimu.simple.request.FeedRequest;
 import com.mimu.simple.request.UserRequest;
 import com.mimu.simple.response.FeedInfoData;
@@ -15,6 +13,8 @@ import com.mimu.simple.httpserver.util.ConvertUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Iterator;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.Map;
  * author: mimu
  * date: 2018/10/28
  */
-@SimpleController
+@RestController
 public class InnerController {
     private static final Logger logger = LoggerFactory.getLogger(InnerController.class);
     private UserService userService;
@@ -34,7 +34,7 @@ public class InnerController {
         this.userService = userService;
     }
 
-    @SimpleRequestUrl(value = "/test/inner/info.go")
+    @RequestMapping(value = "/test/inner/info.go")
     public void getInfo(SimpleHttpRequest request, SimpleHttpResponse response) {
         try {
             UserRequest userRequest = ConvertUtil.convert(request, UserRequest.class);
@@ -51,7 +51,7 @@ public class InnerController {
 
     }
 
-    @SimpleRequestUrl(value = "/test/inner/feed/info.go")
+    @RequestMapping(value = "/test/inner/feed/info.go")
     public void getFeedInfo(SimpleHttpRequest request, SimpleHttpResponse response) {
         try {
             FeedRequest feedRequest = ConvertUtil.convert(request, FeedRequest.class);
@@ -82,7 +82,7 @@ public class InnerController {
         }
     }
 
-    @SimpleRequestUrl(url = "/test/inner/test.go")
+    @RequestMapping(value = "/test/inner/test.go")
     public void testInfo(SimpleHttpRequest request, SimpleHttpResponse response){
         try {
             UserRequest userRequest = ConvertUtil.convert(request,UserRequest.class);

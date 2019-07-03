@@ -192,6 +192,7 @@ public class SimpleHttpRequest {
                 } catch (IOException e) {
                     logger.error("SimpleHttpRequest initParameters error", e);
                 }
+                data.release();
             }
         }
 

@@ -1,13 +1,13 @@
 package com.mimu.simple.httpserver.core;
 
 
-import com.mimu.simple.httpserver.core.annotation.SimpleController;
-import com.mimu.simple.httpserver.core.annotation.SimpleRequestUrl;
 import com.mimu.simple.httpserver.util.ClassUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -34,7 +34,7 @@ public class ControllerDispatcher {
         if (context == null) {
             context = new AnnotationConfigApplicationContext(packages.toArray(new String[]{}));
         }
-        Map<String, Object> controller = context.getBeansWithAnnotation(SimpleController.class);
+        Map<String, Object> controller = context.getBeansWithAnnotation(Controller.class);
         Iterator<Map.Entry<String, Object>> iterator = controller.entrySet().iterator();
         while (iterator.hasNext()) {
             Object object = iterator.next().getValue();
@@ -57,7 +57,7 @@ public class ControllerDispatcher {
         Map<String, SimpleHandler> handlerMap = new HashMap<>();
         Set<Class<?>> classSet = ClassUtil.getClasses(packages);
         for (Class<?> clazz : classSet) {
-            if (clazz.isAnnotationPresent(SimpleController.class)) {
+            if (clazz.isAnnotationPresent(Controller.class)) {
                 try {
                     Object object = clazz.newInstance();
                     Method[] methods = clazz.getDeclaredMethods();
@@ -72,12 +72,12 @@ public class ControllerDispatcher {
 
     private void getHandler(Map<String, SimpleHandler> handlerMap, Object object, Method[] methods) {
         for (Method method : methods) {
-            if (method.isAnnotationPresent(SimpleRequestUrl.class)) {
+            if (method.isAnnotationPresent(RequestMapping.class)) {
                 //String request  = method.getDeclaredAnnotation(SimpleRequestUrl.class).value();
                 /*
                   here we use spring AnnotationUtils get the alias field value in a annotation class
                  */
-                String request = AnnotationUtils.getAnnotation(method, SimpleRequestUrl.class).value();
+                String request = AnnotationUtils.getAnnotation(method, RequestMapping.class).value()[0];
                 SimpleHandler handler = new SimpleHandler();
                 handler.setObject(object);
                 handler.setMethod(method);
