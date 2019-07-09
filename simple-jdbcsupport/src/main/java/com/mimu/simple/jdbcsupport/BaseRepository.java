@@ -20,10 +20,11 @@ public abstract class BaseRepository<T> implements RowMapper<T>, InitializingBea
     protected NamedParameterJdbcTemplate writeNamedParameterJdbcTemplate;
     protected NamedParameterJdbcTemplate readNamedParameterJdbcTemplate;
 
-
     @Override
     public void afterPropertiesSet() throws Exception {
         init(writeDataSource, readDataSource);
+        setWriteDataSource(writeDataSource);
+        setReadDataSource(readDataSource);
     }
 
     public abstract void init(DataSource writeDataSource, DataSource readDataSource);
