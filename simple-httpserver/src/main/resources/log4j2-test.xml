@@ -36,7 +36,7 @@
                 -->
         <RollingFile name="RollingFileInfo" fileName="${sys:server_log_home}/${sys:server_name}.log"
                      filePattern="${sys:server_log_home}/${sys:server_name}.%d{yyyy-MM-dd}.log">
-            <LevelRangeFilter minLevel="INFO" masLevel="WARN" onMatch="ACCEPT"/>
+            <ThresholdFilter level="INFO" onMatch="ACCEPT"/>
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36}:%L [%t] - %msg%n"/>
             <!-- Policies定义相关策略：-->
             <Policies>
@@ -119,7 +119,7 @@
         <!-- 配置日志的根节点 -->
         <!-- level="all" 只能够输出level级别是all及all以上的-->
         <root level="all">
-            <!--<appender-ref ref="Console" />-->
+            <appender-ref ref="Console" />
             <appender-ref ref="RollingFileInfo"/>
             <appender-ref ref="RollingFileError"/>
         </root>
