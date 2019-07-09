@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--auto scan config change every 60s-->
+<configuration scan="true" scanPeriod="60 seconds">
+    <!--time rolling log-->
+    <appender name="timeRolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${server_log_home}/${server_name}.log</File>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${server_log_home}/${server_name}.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss:SSS} |-%-5level [%t] %M\(%c{0}.java:%L\) - %msg%n</pattern>
+        </encoder>
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+        </filter>
+    </appender>
+
+    <appender name="errorRolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${server_log_home}/${server_name}.err</File>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${server_log_home}/${server_name}-%d{yyyy-MM-dd}.err</FileNamePattern>
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss:SSS} |-%-5level [%t] %M\(%c{0}.java:%L\) - %msg%n</pattern>
+        </encoder>
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <appender name="serverTimeRolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${server_log_home}/serverLog/server.log</File>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${server_log_home}/serverLog/server.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss:SSS} |-%-5level [%t] %M\(%c{0}.java:%L\) - %msg%n</pattern>
+        </encoder>
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+        </filter>
+    </appender>
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss:SSS} |-%-5level [%t] %c{0}.%M\(%c{0}.java:%L\) - %msg%n</pattern>
+        </encoder>
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+
+    <logger name = "serverLog" level="INFO" additivity="false">
+        <appender-ref ref="serverTimeRolling"/>
+    </logger>
+
+    <root>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="timeRolling"/>
+        <appender-ref ref="errorRolling"/>
+    </root>
+
+</configuration>
