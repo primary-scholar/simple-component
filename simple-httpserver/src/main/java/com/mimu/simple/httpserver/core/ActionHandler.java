@@ -46,7 +46,11 @@ public class ActionHandler {
     public void invoke(SimpleHttpRequest request, SimpleHttpResponse response) {
         Object object = execute(request, response);
         if (object != null) {
-            response.response(object);
+            if (object instanceof String) {
+                response.response((String) object);
+            } else {
+                response.response(object);
+            }
         }
     }
 
