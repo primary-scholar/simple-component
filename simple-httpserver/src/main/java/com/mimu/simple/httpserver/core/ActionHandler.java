@@ -1,5 +1,6 @@
 package com.mimu.simple.httpserver.core;
 
+import javafx.beans.binding.ObjectBinding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +33,7 @@ public class ActionHandler {
         this.method = method;
     }
 
-    Object invoke(SimpleHttpRequest request, SimpleHttpResponse response) {
+    Object execute(SimpleHttpRequest request, SimpleHttpResponse response) {
         try {
             this.method.setAccessible(true);
             return this.method.invoke(object, request, response);
@@ -41,4 +42,12 @@ public class ActionHandler {
         }
         return null;
     }
+
+    public void invoke(SimpleHttpRequest request, SimpleHttpResponse response) {
+        Object object = execute(request, response);
+        if (object != null) {
+            response.response(object);
+        }
+    }
+
 }

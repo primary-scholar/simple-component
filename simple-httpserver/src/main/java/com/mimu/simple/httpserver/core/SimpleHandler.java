@@ -3,6 +3,8 @@ package com.mimu.simple.httpserver.core;
 
 import com.alibaba.fastjson.JSONObject;
 import com.mimu.simple.httpserver.config.SimpleServerConfigManager;
+import com.sun.xml.internal.bind.v2.model.core.ID;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpHeaderNames;
@@ -17,17 +19,17 @@ import java.util.concurrent.CompletableFuture;
  * date: 2018/10/21
  */
 public class SimpleHandler extends ActionHandler {
-    private static final Logger logger = LoggerFactory.getLogger(SimpleHandler.class);
+    private static final Logger serverLogger = LoggerFactory.getLogger("serverLogger");
 
-    public void execute(ChannelHandlerContext context, SimpleHttpRequest request, SimpleHttpResponse response, long startTime) {
+    public void execute(ChannelHandlerContext context, SimpleHttpRequest request, SimpleHttpResponse response, String id, long startTime) {
         /*
         异步执行业务逻辑，把业务逻辑放到 forkjoinpool 中执行
         */
         if (SimpleServerConfigManager.fork_join_pool_switch()) {
             CompletableFuture.runAsync(() -> invoke(request, response))
-                    .thenRun(() -> context.executor().execute(() -> writeMessage(context, request, response, startTime)))
+                    .thenRun(() -> context.executor().execute(() -> writeMessage(context, request, response, id, startTime)))
                     .exceptionally(throwable -> {
-                        context.executor().execute(() -> writeError(context, request, response, throwable, startTime));
+                        context.executor().execute(() -> writeError(context, request, response, throwable, id, startTime));
                         context.close();
                         return null;
                     });
@@ -36,31 +38,35 @@ public class SimpleHandler extends ActionHandler {
             同步执行业务逻辑，在当前的nioeventloop中执行业务逻辑
             */
             invoke(request, response);
-            writeMessage(context, request, response, startTime);
+            writeMessage(context, request, response, id, startTime);
         }
     }
 
-    private void writeMessage(ChannelHandlerContext channelHandlerContext, SimpleHttpRequest simpleHttpRequest, SimpleHttpResponse simpleHttpResponse, long startTime) {
-        write(channelHandlerContext, simpleHttpRequest, simpleHttpResponse, startTime);
+    private void writeMessage(ChannelHandlerContext channelHandlerContext, SimpleHttpRequest simpleHttpRequest, SimpleHttpResponse simpleHttpResponse, String id, long startTime) {
+        write(channelHandlerContext, simpleHttpRequest, simpleHttpResponse, id, startTime);
     }
 
-    private void writeError(ChannelHandlerContext channelHandlerContext, SimpleHttpRequest simpleHttpRequest, SimpleHttpResponse simpleHttpResponse, Throwable throwable, long startTime) {
+    private void writeError(ChannelHandlerContext channelHandlerContext, SimpleHttpRequest simpleHttpRequest, SimpleHttpResponse simpleHttpResponse, Throwable throwable, String id, long startTime) {
         JSONObject result = new JSONObject();
         result.put("code", 500);
         result.put("msg", throwable);
         simpleHttpResponse.response(result);
-        write(channelHandlerContext, simpleHttpRequest, simpleHttpResponse, startTime);
+        write(channelHandlerContext, simpleHttpRequest, simpleHttpResponse, id, startTime);
     }
 
-    private void write(ChannelHandlerContext channelHandlerContext, SimpleHttpRequest simpleHttpRequest, SimpleHttpResponse simpleHttpResponse, long startTime) {
+    private void write(ChannelHandlerContext channelHandlerContext, SimpleHttpRequest simpleHttpRequest, SimpleHttpResponse simpleHttpResponse, String id, long startTime) {
         simpleHttpResponse.getResponse().headers().setInt(HttpHeaderNames.CONTENT_LENGTH, simpleHttpResponse.getResponse().content().readableBytes());
         boolean keepAlive = isKeepAlive(simpleHttpRequest);
+        ByteBuf byteBuf = simpleHttpResponse.getResponse().content();
+        String result = new String(byteBuf.array(), byteBuf.readerIndex(), byteBuf.readableBytes());
         if (!keepAlive) {
             simpleHttpResponse.getResponse().headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.CLOSE);
             channelHandlerContext.writeAndFlush(simpleHttpResponse.getResponse()).addListener((ChannelFutureListener) future -> {
                 future.channel().close();
                 if (future.isSuccess()) {
-                    logger.info("server handle over url={},cost={} ms", simpleHttpRequest.getUrl(), System.currentTimeMillis() - startTime);
+                    serverLogger.info("server handle over id={},result={},cost={} ms", id, result, System.currentTimeMillis() - startTime);
+                } else {
+                    serverLogger.error("server handle error id={},result={},cost={} ms", id, result, System.currentTimeMillis() - startTime);
                 }
             });
         }
@@ -68,7 +74,9 @@ public class SimpleHandler extends ActionHandler {
             simpleHttpResponse.getResponse().headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
             channelHandlerContext.writeAndFlush(simpleHttpResponse.getResponse()).addListener((ChannelFutureListener) future -> {
                 if (future.isSuccess()) {
-                    logger.info("server handle over url={},cost={} ms", simpleHttpRequest.getUrl(), System.currentTimeMillis() - startTime);
+                    serverLogger.info("server handle over id={},result={},cost={} ms", id, result, System.currentTimeMillis() - startTime);
+                } else {
+                    serverLogger.error("server handle error id={},result={},cost={} ms", id, result, System.currentTimeMillis() - startTime);
                 }
             });
         }

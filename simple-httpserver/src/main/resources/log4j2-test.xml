@@ -67,8 +67,8 @@
             <DefaultRolloverStrategy max="15"/>
         </RollingFile>
 
-        <RollingFile name="ExposeRollingFileInfo" fileName="${sys:server_log_home}/expose_log/${sys:server_name}.log"
-                     filePattern="${sys:server_log_home}/expose_log/${sys:server_name}-%d{yyyy-MM-dd-HH}.log">
+        <RollingFile name="ExposeRollingFileInfo" fileName="${sys:server_log_home}/server_log/${sys:server_name}.log"
+                     filePattern="${sys:server_log_home}/server_log/${sys:server_name}-%d{yyyy-MM-dd-HH}.log">
             <ThresholdFilter level="INFO" onMatch="ACCEPT"/>
             <PatternLayout pattern="%d %-5p [%t] %c（%L）| %m%n"/>
             <!-- Policies定义相关策略：-->
@@ -113,7 +113,7 @@
     <Loggers>
         <!--过滤掉spring的一些无用的DEBUG信息-->
         <logger name="org.springframework" level="INFO"></logger>
-        <logger name="exposeLog" level="INFO">
+        <logger name="serverLogger" level="INFO">
             <appender-ref ref="ExposeRollingFileInfo"/>
         </logger>
         <!-- 配置日志的根节点 -->

@@ -56,6 +56,10 @@ public class SimpleHttpRequest {
         return cookies;
     }
 
+    public Map<String, List<String>> getParameters() {
+        return parameters;
+    }
+
     public String getUrl() {
         return url;
     }
