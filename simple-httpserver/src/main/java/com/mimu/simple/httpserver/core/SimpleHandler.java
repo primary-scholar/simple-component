@@ -3,7 +3,6 @@ package com.mimu.simple.httpserver.core;
 
 import com.alibaba.fastjson.JSONObject;
 import com.mimu.simple.httpserver.config.SimpleServerConfigManager;
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
