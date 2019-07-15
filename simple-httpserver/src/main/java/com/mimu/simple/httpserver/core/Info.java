@@ -8,7 +8,7 @@ public class Info {
     private int code;
     private String desc;
 
-    Info() {
+    public Info() {
     }
 
     Info(int code, String desc) {
