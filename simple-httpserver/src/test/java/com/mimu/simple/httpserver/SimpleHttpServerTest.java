@@ -28,7 +28,7 @@ public class SimpleHttpServerTest {
     }
 
     public static void main(String[] args) {
-        SimpleHttpServer server = SimpleHttpServer.getServer().packages(Collections.singletonList("com.mimu.simple")).port(9090).create();
+        SimpleHttpServer server = SimpleHttpServer.getServer().packages(Collections.singletonList("com.mimu.simple")).port(9091).create();
         server.startServer();
     }
 }

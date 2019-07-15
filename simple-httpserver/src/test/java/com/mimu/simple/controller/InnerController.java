@@ -34,7 +34,7 @@ public class InnerController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/test/inner/info.go")
+    @RequestMapping(value = "/test/info.go")
     public void getInfo(SimpleHttpRequest request, SimpleHttpResponse response) {
         try {
             UserRequest userRequest = ConvertUtil.convert(request, UserRequest.class);
@@ -51,7 +51,7 @@ public class InnerController {
 
     }
 
-    @RequestMapping(value = "/test/inner/feed/info.go")
+    @RequestMapping(value = "/test/info1.go")
     public void getFeedInfo(SimpleHttpRequest request, SimpleHttpResponse response) {
         try {
             FeedRequest feedRequest = ConvertUtil.convert(request, FeedRequest.class);
@@ -82,7 +82,7 @@ public class InnerController {
         }
     }
 
-    @RequestMapping(value = "/test/inner/test.go")
+    @RequestMapping(value = "/test/info2.go")
     public void testInfo(SimpleHttpRequest request, SimpleHttpResponse response){
         try {
             UserRequest userRequest = ConvertUtil.convert(request,UserRequest.class);
