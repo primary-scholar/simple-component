@@ -32,6 +32,7 @@ public class SimpleHttpRequest {
     private Channel channel;
     private FullHttpRequest request;
     private String url;
+    private HttpMethod method;
     private Map<String, String> headers = new HashMap<>();
     private Map<String, String> cookies = new HashMap<>();
     private Map<String, List<String>> parameters = new HashMap<>();
@@ -62,6 +63,10 @@ public class SimpleHttpRequest {
 
     public String getUrl() {
         return url;
+    }
+
+    public HttpMethod getMethod() {
+        return method;
     }
 
     public String getString(String key) {
@@ -162,6 +167,7 @@ public class SimpleHttpRequest {
     }
 
     private void initParameters() {
+        this.method = request.method();
         if (request.method().equals(HttpMethod.GET)) {
             QueryStringDecoder decoder = new QueryStringDecoder(Objects.requireNonNull(initFullUri()));
             Map<String, List<String>> requestParameters = decoder.parameters();
