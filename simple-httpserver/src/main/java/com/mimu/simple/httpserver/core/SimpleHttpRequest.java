@@ -43,6 +43,9 @@ public class SimpleHttpRequest {
         this.channel = channel;
         this.request = request;
         initFullUri();
+        initHeaders();
+        initCookies();
+        initParameters();
     }
 
     public FullHttpRequest getRequest() {
@@ -131,11 +134,11 @@ public class SimpleHttpRequest {
     }
 
 
-    public void parseRequest() {
+/*    public void parseRequest() {
         initHeaders();
         initCookies();
         initParameters();
-    }
+    }*/
 
     public String initFullUri() {
         String fullUri = request.uri();

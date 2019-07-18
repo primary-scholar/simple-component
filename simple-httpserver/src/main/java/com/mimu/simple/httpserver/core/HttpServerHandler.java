@@ -61,7 +61,6 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
                 }
             });
         } else {
-            request.parseRequest();
             serverLogger.info("server handler start id={},url={},header={},parameter={},files={}", id, request.getUrl(), request.getHeaders(), request.getParameters(), request.getFiles());
             handler.execute(channelHandlerContext, request, response, id, startTime);
         }
