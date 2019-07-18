@@ -27,29 +27,10 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, FullHttpRequest request) {
         long startTime = System.currentTimeMillis();
-        String id = StringUtils.replace(UUID.randomUUID().toString(), "-", "");
         SimpleHttpRequest simpleHttpRequest = new SimpleHttpRequest(channelHandlerContext.channel(), request);
         FullHttpResponse fullHttpResponse = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
         SimpleHttpResponse simpleHttpResponse = new SimpleHttpResponse(fullHttpResponse);
-        SimpleHandler handler = dispatcher.getHandler(simpleHttpRequest.getUrl());
-        if (handler == null) {
-            Info info = new Info(404, "url is error");
-            simpleHttpResponse.response(info);
-            simpleHttpResponse.getResponse().headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.CLOSE);
-            simpleHttpResponse.getResponse().headers().setInt(HttpHeaderNames.CONTENT_LENGTH, simpleHttpResponse.getResponse().content().readableBytes());
-            channelHandlerContext.writeAndFlush(simpleHttpResponse.getResponse()).addListener((ChannelFutureListener) future -> {
-                future.channel().close();
-                if (future.isSuccess()) {
-                    serverLogger.info("server handle over id={},url={},cost={} ms", id, simpleHttpRequest.getUrl(), System.currentTimeMillis() - startTime);
-                } else {
-                    serverLogger.error("server handle error id={},url={},cost={} ms", id, simpleHttpRequest.getUrl(), System.currentTimeMillis() - startTime);
-                }
-            });
-        } else {
-            simpleHttpRequest.parseRequest();
-            serverLogger.info("server handler start id={},url={},header={},parameter={},files={}", id, simpleHttpRequest.getUrl(), simpleHttpRequest.getHeaders(), simpleHttpRequest.getParameters(), simpleHttpRequest.getFiles());
-            handler.execute(channelHandlerContext, simpleHttpRequest, simpleHttpResponse, id, startTime);
-        }
+        process(simpleHttpRequest, simpleHttpResponse, channelHandlerContext, startTime);
     }
 
     @Override
@@ -63,5 +44,27 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         channelHandlerContext.close();
     }
 
+    public void process(SimpleHttpRequest request, SimpleHttpResponse response, ChannelHandlerContext channelHandlerContext, long startTime) {
+        String id = StringUtils.replace(UUID.randomUUID().toString(), "-", "");
+        SimpleHandler handler = dispatcher.getHandler(request.getUrl());
+        if (handler == null) {
+            Info info = new Info(404, "url is error");
+            response.response(info);
+            response.getResponse().headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.CLOSE);
+            response.getResponse().headers().setInt(HttpHeaderNames.CONTENT_LENGTH, response.getResponse().content().readableBytes());
+            channelHandlerContext.writeAndFlush(response.getResponse()).addListener((ChannelFutureListener) future -> {
+                future.channel().close();
+                if (future.isSuccess()) {
+                    serverLogger.info("server handle over id={},url={},cost={} ms", id, request.getUrl(), System.currentTimeMillis() - startTime);
+                } else {
+                    serverLogger.error("server handle error id={},url={},cost={} ms", id, request.getUrl(), System.currentTimeMillis() - startTime);
+                }
+            });
+        } else {
+            request.parseRequest();
+            serverLogger.info("server handler start id={},url={},header={},parameter={},files={}", id, request.getUrl(), request.getHeaders(), request.getParameters(), request.getFiles());
+            handler.execute(channelHandlerContext, request, response, id, startTime);
+        }
+    }
 
 }
