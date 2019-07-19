@@ -16,7 +16,7 @@
     <url>http://www.example.com</url>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <simple.common.version>1.0-SNAPSHOT</simple.common.version>
     </properties>
 
     <dependencies>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>com.mimu.simple</groupId>
             <artifactId>simple-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${simple.common.version}</version>
         </dependency>
 
         <dependency>
