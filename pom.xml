@@ -13,6 +13,7 @@
         <module>simple-httpclient</module>
         <module>simple-redislock</module>
         <module>simple-jdbcsupport</module>
+        <module>simple-common</module>
     </modules>
 
     <name>simple-component</name>

@@ -1,7 +1,7 @@
 package com.mimu.simple.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.mimu.simple.httpserver.core.FileItem;
+import com.mimu.simple.common.core.FileItem;
 import com.mimu.simple.httpserver.core.SimpleHttpRequest;
 import com.mimu.simple.httpserver.core.SimpleHttpResponse;
 import com.mimu.simple.request.FeedRequest;

@@ -1,4 +1,4 @@
-package com.mimu.simple.httpserver.core;
+package com.mimu.simple.common.core;
 
 import java.io.Serializable;
 
@@ -11,7 +11,7 @@ public class FileItem implements Serializable {
     private String contentType;
     private String fileName;
 
-    public FileItem(byte[] bytes,String contentType,String fileName){
+    public FileItem(byte[] bytes, String contentType, String fileName){
         this.bytes = bytes;
         this.contentType = contentType;
         this.fileName = fileName;

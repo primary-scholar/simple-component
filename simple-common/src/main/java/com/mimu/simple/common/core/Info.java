@@ -1,4 +1,4 @@
-package com.mimu.simple.httpserver.core;
+package com.mimu.simple.common.core;
 
 /**
  * author: mimu
@@ -11,7 +11,7 @@ public class Info {
     public Info() {
     }
 
-    Info(int code, String desc) {
+    public Info(int code, String desc) {
         this.code = code;
         this.desc = desc;
     }

@@ -1,7 +1,7 @@
 package com.mimu.simple.httpclient;
 
-import com.mimu.simple.httpserver.core.FileItem;
-import com.mimu.simple.httpserver.util.ConvertUtil;
+import com.mimu.simple.common.core.FileItem;
+import com.mimu.simple.common.util.ConvertUtil;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;

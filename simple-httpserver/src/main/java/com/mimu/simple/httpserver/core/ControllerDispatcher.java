@@ -1,7 +1,7 @@
 package com.mimu.simple.httpserver.core;
 
 
-import com.mimu.simple.httpserver.util.ClassUtil;
+import com.mimu.simple.common.util.ClassUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

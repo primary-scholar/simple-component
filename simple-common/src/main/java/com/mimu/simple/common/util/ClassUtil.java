@@ -1,6 +1,6 @@
-package com.mimu.simple.httpserver.util;
+package com.mimu.simple.common.util;
 
-import com.mimu.simple.httpserver.enums.ProtocolEnum;
+import com.mimu.simple.common.enums.ProtocolEnum;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

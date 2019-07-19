@@ -1,6 +1,6 @@
 package com.mimu.simple.httpserver.util;
 
-import com.mimu.simple.httpserver.core.FileItem;
+import com.mimu.simple.common.core.FileItem;
 import com.mimu.simple.httpserver.core.SimpleHttpRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -26,7 +26,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ConvertUtil {
     private static final Logger logger = LoggerFactory.getLogger(ConvertUtil.class);
     private static Map<Class<?>, Map<PropertyDescriptor, Method>> writePropertyDescriptorMap = new ConcurrentHashMap<>();
-    private static Map<Class<?>, Map<PropertyDescriptor, Method>> readPropertyDescriptorMap = new ConcurrentHashMap<>();
 
     public static <T> T convert(SimpleHttpRequest request, Class<T> clazz) throws Exception {
         initWritePropertyDescriptorMap(clazz);
@@ -51,29 +50,6 @@ public class ConvertUtil {
         return target;
     }
 
-    public static Map<String, Object> convert2Map(Object object) throws Exception {
-        Map<String, Object> aNewMap = new HashMap<>();
-        if (object == null) {
-            return aNewMap;
-        }
-        initReadPropertyDescriptorMap(object.getClass());
-        Map<PropertyDescriptor, Method> propertyDescriptorMethodMap = readPropertyDescriptorMap.get(object.getClass());
-        propertyDescriptorMethodMap.forEach((descriptor, method) -> {
-            String name = descriptor.getName();
-            try {
-                if (!name.equalsIgnoreCase("class")) {
-                    Object value = method.invoke(object);
-                    if (value != null) {
-                        aNewMap.put(name, value);
-                    }
-                }
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                logger.error("convert2Map error", e);
-            }
-        });
-        return aNewMap;
-    }
-
     private static void initWritePropertyDescriptorMap(Class<?> clazz) {
         Map<PropertyDescriptor, Method> writePropertyDescriptorMethodMap = writePropertyDescriptorMap.get(clazz);
         if (writePropertyDescriptorMethodMap == null) {
@@ -89,26 +65,6 @@ public class ConvertUtil {
                     }
                 }
                 writePropertyDescriptorMap.put(clazz, writeMethodMap);
-            } catch (Exception e) {
-                logger.error("initWritePropertyDescriptorMap error", e);
-            }
-        }
-    }
-
-    private static void initReadPropertyDescriptorMap(Class<?> clazz) {
-        Map<PropertyDescriptor, Method> propertyDescriptorMethodMap = readPropertyDescriptorMap.get(clazz);
-        if (propertyDescriptorMethodMap == null) {
-            try {
-                BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
-                PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
-                Map<PropertyDescriptor, Method> readMethodMap = new HashMap<>();
-                for (PropertyDescriptor descriptor : descriptors) {
-                    Method readMethod = descriptor.getReadMethod();
-                    if (readMethod != null) {
-                        readMethodMap.put(descriptor, readMethod);
-                    }
-                }
-                readPropertyDescriptorMap.put(clazz, readMethodMap);
             } catch (Exception e) {
                 logger.error("initWritePropertyDescriptorMap error", e);
             }

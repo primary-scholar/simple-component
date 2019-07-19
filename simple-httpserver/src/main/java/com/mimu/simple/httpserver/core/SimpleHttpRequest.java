@@ -1,5 +1,6 @@
 package com.mimu.simple.httpserver.core;
 
+import com.mimu.simple.common.core.FileItem;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpHeaders;
