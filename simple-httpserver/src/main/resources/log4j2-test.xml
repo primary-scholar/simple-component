@@ -126,7 +126,7 @@
         <!-- 配置日志的根节点 -->
         <!-- level="all" 只能够输出level级别是all及all以上的-->
         <root level="all">
-            <appender-ref ref="Console" />
+            <appender-ref ref="Console"/>
             <appender-ref ref="RollingFileInfo"/>
             <appender-ref ref="RollingFileError"/>
         </root>
