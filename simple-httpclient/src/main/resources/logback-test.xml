@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--auto scan config change every 60s-->
 <configuration scan="true" scanPeriod="60 seconds">
+    <property scope="context" name="path" value="${server_log_home}"/>
+    <property scope="context" name="name" value="${server_name}"/>
+    <!--<property scope="context" name="path" value="logs/"/>
+    <property scope="context" name="name" value="simple-httpclient"/>-->
     <!--time rolling log-->
     <appender name="timeRolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${server_log_home}/${server_name}.log</File>
+        <File>${path}/${server_name}.log</File>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${server_log_home}/${server_name}.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${path}/${name}.%d{yyyy-MM-dd}.log</FileNamePattern>
             <maxHistory>15</maxHistory>
         </rollingPolicy>
 
@@ -25,10 +29,10 @@
     </appender>
 
     <appender name="errorRolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${server_log_home}/${server_name}.err</File>
+        <File>${path}/${name}.err</File>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${server_log_home}/${server_name}-%d{yyyy-MM-dd}.err</FileNamePattern>
+            <FileNamePattern>${path}/${name}-%d{yyyy-MM-dd}.err</FileNamePattern>
             <maxHistory>15</maxHistory>
         </rollingPolicy>
 
@@ -43,10 +47,10 @@
     </appender>
 
     <appender name="serverTimeRolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${server_log_home}/serverLog/server.log</File>
+        <File>${path}/serverLog/server.log</File>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${server_log_home}/serverLog/server.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${path}/serverLog/server.%d{yyyy-MM-dd}.log</FileNamePattern>
             <maxHistory>15</maxHistory>
         </rollingPolicy>
 
@@ -76,7 +80,7 @@
     </appender>
 
 
-    <logger name = "serverLog" level="INFO" additivity="false">
+    <logger name="serverLogger" level="INFO" additivity="false">
         <appender-ref ref="serverTimeRolling"/>
     </logger>
 
