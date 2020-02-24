@@ -5,10 +5,10 @@
 -->
 <Configuration status="ERROR" monitorInterval="30">
     <Properties>
-        <Property name="path">${sys:server_log_home}</Property>
-        <Property name="name">${sys:server_name}</Property>
-        <!--<Property name="path">logs/</Property>
-        <Property name="name">simple-springannotation</Property>-->
+        <!--<Property name="path">${sys:server_log_home}</Property>
+        <Property name="name">${sys:server_name}</Property>-->
+        <Property name="path">logs/</Property>
+        <Property name="name">simple-httpserver</Property>
     </Properties>
 
     <Appenders>
