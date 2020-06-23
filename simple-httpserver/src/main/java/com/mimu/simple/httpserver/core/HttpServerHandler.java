@@ -19,9 +19,9 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
     private static final Logger logger = LoggerFactory.getLogger(HttpServerHandler.class);
     private static final Logger serverLogger = LoggerFactory.getLogger("serverLogger");
 
-    private ControllerDispatcher dispatcher;
+    private HandlerDispatcher dispatcher;
 
-    public HttpServerHandler(ControllerDispatcher dispatcher) {
+    public HttpServerHandler(HandlerDispatcher dispatcher) {
         this.dispatcher = dispatcher;
     }
 

@@ -1,7 +1,7 @@
 package com.mimu.simple.httpserver;
 
 import com.mimu.simple.httpserver.config.SimpleServerConfigManager;
-import com.mimu.simple.httpserver.core.ControllerDispatcher;
+import com.mimu.simple.httpserver.core.HandlerDispatcher;
 import com.mimu.simple.httpserver.core.HttpServerHandler;
 import com.mimu.simple.httpserver.core.ServerIdleHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -42,7 +42,7 @@ public class SimpleHttpServer {
 
     public void startServer() {
         //ControllerDispatcher controllerDispatcher = new ControllerDispatcher(packages, supportSpring);
-        HttpServerHandler handler = new HttpServerHandler(new ControllerDispatcher(packages, supportSpring));
+        HttpServerHandler handler = new HttpServerHandler(new HandlerDispatcher(packages, supportSpring));
         EventLoopGroup connectionGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         ServerBootstrap server = new ServerBootstrap();

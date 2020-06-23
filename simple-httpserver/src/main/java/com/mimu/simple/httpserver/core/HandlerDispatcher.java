@@ -16,12 +16,12 @@ import java.util.*;
  * author: mimu
  * date: 2018/10/22
  */
-public class ControllerDispatcher {
-    private static final Logger logger = LoggerFactory.getLogger(ControllerDispatcher.class);
+public class HandlerDispatcher {
+    private static final Logger logger = LoggerFactory.getLogger(HandlerDispatcher.class);
     private Map<String, SimpleHandler> handlerMap;
     private AnnotationConfigApplicationContext context;
 
-    public ControllerDispatcher(List<String> packages, boolean supportSpring) {
+    public HandlerDispatcher(List<String> packages, boolean supportSpring) {
         handlerMap = supportSpring ? getHandlerWithSpring(packages) : getHandlerByScanPackage(packages);
     }
 
