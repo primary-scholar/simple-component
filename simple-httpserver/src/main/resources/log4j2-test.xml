@@ -76,7 +76,7 @@
 
         <RollingFile name="ExposeRollingFileInfo" fileName="${path}/server_log/${name}.log"
                      filePattern="${path}/server_log/${name}-%d{yyyy-MM-dd-HH}-%i.log.gz">
-            <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+            <!--<ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>-->
             <ThresholdFilter level="INFO" onMatch="ACCEPT"/>
             <PatternLayout pattern="%d %-5p [%t] %c（%L）| %m%n"/>
             <!-- Policies定义相关策略：-->
