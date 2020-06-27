@@ -1,9 +1,8 @@
 package com.mimu.simple;
 
+import com.mimu.simple.config.AppConfig;
 import com.mimu.simple.httpserver.SimpleHttpServer;
 import org.junit.Test;
-
-import java.util.Collections;
 
 /**
  * author: mimu
