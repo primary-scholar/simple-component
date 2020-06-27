@@ -1,7 +1,7 @@
 package com.mimu.simple.response;
 
 
-import com.mimu.simple.common.core.FileItem;
+import com.mimu.simple.httpserver.core.model.FileItem;
 
 import java.util.List;
 import java.util.Map;

@@ -1,6 +1,7 @@
-package com.mimu.simple.httpserver.core;
+package com.mimu.simple.httpserver.core.handler;
 
-import javafx.beans.binding.ObjectBinding;
+import com.mimu.simple.httpserver.core.request.SimpleHttpRequest;
+import com.mimu.simple.httpserver.core.response.SimpleHttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,24 +34,21 @@ public class ActionHandler {
         this.method = method;
     }
 
-    Object execute(SimpleHttpRequest request, SimpleHttpResponse response) {
-        try {
-            this.method.setAccessible(true);
-            return this.method.invoke(object, request, response);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            logger.error("ActionHandler execute error", e);
-        }
-        return null;
+    Object execute(SimpleHttpRequest request, SimpleHttpResponse response) throws InvocationTargetException, IllegalAccessException {
+        this.method.setAccessible(true);
+        return this.method.invoke(object, request, response);
     }
 
     public void invoke(SimpleHttpRequest request, SimpleHttpResponse response) {
-        Object object = execute(request, response);
-        if (object != null) {
+        try {
+            Object object = execute(request, response);
             if (object instanceof String) {
                 response.response((String) object);
             } else {
                 response.response(object);
             }
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            response.response(e.getStackTrace());
         }
     }
 

@@ -1,4 +1,4 @@
-package com.mimu.simple.httpserver.core;
+package com.mimu.simple.httpserver.core.response;
 
 
 import com.alibaba.fastjson.JSONObject;
@@ -19,11 +19,11 @@ public class SimpleHttpResponse {
     private static final String contentType = "application/json";
     private FullHttpResponse httpResponse;
 
-    SimpleHttpResponse(FullHttpResponse response) {
+    public SimpleHttpResponse(FullHttpResponse response) {
         this.httpResponse = response;
     }
 
-    FullHttpResponse getResponse() {
+    public FullHttpResponse getResponse() {
         return httpResponse;
     }
 

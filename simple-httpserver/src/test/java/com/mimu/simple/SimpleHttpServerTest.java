@@ -1,5 +1,6 @@
-package com.mimu.simple.httpserver;
+package com.mimu.simple;
 
+import com.mimu.simple.httpserver.SimpleHttpServer;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -12,7 +13,7 @@ public class SimpleHttpServerTest {
 
     @Test
     public void startServer() {
-        SimpleHttpServer server = SimpleHttpServer.getServer().packages(Collections.singletonList("com.mimu.simple")).create();
+        SimpleHttpServer server = SimpleHttpServer.getServer().config(AppConfig.class).create();
         server.startServer();
     }
 
@@ -23,12 +24,12 @@ public class SimpleHttpServerTest {
          * there a lot of things need to do ,such as dependencies inject , inversion of control
          * so here has lots of things to deal with it while we didn't resolve.
          */
-        SimpleHttpServer server = SimpleHttpServer.getServer().packages(Collections.singletonList("com.mimu.simple")).supportSpring(false).create();
+        SimpleHttpServer server = SimpleHttpServer.getServer().config(AppConfig.class).create();
         server.startServer();
     }
 
     public static void main(String[] args) {
-        SimpleHttpServer server = SimpleHttpServer.getServer().packages(Collections.singletonList("com.mimu.simple")).port(9091).create();
+        SimpleHttpServer server = SimpleHttpServer.getServer().config(AppConfig.class).port(9091).create();
         server.startServer();
     }
 }

@@ -73,11 +73,11 @@
             <artifactId>netty-all</artifactId>
         </dependency>
 
-        <dependency>
+<!--        <dependency>
             <groupId>com.mimu.simple</groupId>
             <artifactId>simple-common</artifactId>
             <version>${simple.common.version}</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>junit</groupId>

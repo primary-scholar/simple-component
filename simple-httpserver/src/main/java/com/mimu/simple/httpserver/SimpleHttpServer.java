@@ -1,9 +1,9 @@
 package com.mimu.simple.httpserver;
 
 import com.mimu.simple.httpserver.config.SimpleServerConfigManager;
-import com.mimu.simple.httpserver.core.HandlerDispatcher;
-import com.mimu.simple.httpserver.core.HttpServerHandler;
-import com.mimu.simple.httpserver.core.ServerIdleHandler;
+import com.mimu.simple.httpserver.core.handler.HandlerDispatcher;
+import com.mimu.simple.httpserver.core.handler.HttpServerHandler;
+import com.mimu.simple.httpserver.core.handler.ServerIdleHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -30,19 +30,17 @@ public class SimpleHttpServer {
     private static Builder builder = new Builder();
     private int contextLength;
     private int port;
-    private List<String> packages;
-    private boolean supportSpring;
+    private Class<?> configClazz;
 
-    private SimpleHttpServer(int contextLength, int port, List<String> packages, boolean supportSpring) {
+    private SimpleHttpServer(int contextLength, int port, Class<?> config) {
         this.contextLength = contextLength;
         this.port = port;
-        this.packages = packages;
-        this.supportSpring = supportSpring;
+        this.configClazz = config;
     }
 
     public void startServer() {
         //ControllerDispatcher controllerDispatcher = new ControllerDispatcher(packages, supportSpring);
-        HttpServerHandler handler = new HttpServerHandler(new HandlerDispatcher(packages, supportSpring));
+        HttpServerHandler handler = new HttpServerHandler(new HandlerDispatcher(configClazz));
         EventLoopGroup connectionGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         ServerBootstrap server = new ServerBootstrap();
@@ -96,8 +94,7 @@ public class SimpleHttpServer {
     public static class Builder {
         private int contextLength = 10 * 1024 * 1024;
         private int port = 8080;
-        private List<String> packages = Collections.emptyList();
-        private boolean supportSpring = true;
+        private Class<?> configClazz;
 
         public Builder contextLength(int contextLength) {
             this.contextLength = contextLength;
@@ -109,18 +106,13 @@ public class SimpleHttpServer {
             return this;
         }
 
-        public Builder packages(List<String> packages) {
-            this.packages = packages;
-            return this;
-        }
-
-        public Builder supportSpring(boolean supportSpring) {
-            this.supportSpring = supportSpring;
+        public Builder config(Class<?> config) {
+            this.configClazz = config;
             return this;
         }
 
         public SimpleHttpServer create() {
-            return new SimpleHttpServer(contextLength, port, packages, supportSpring);
+            return new SimpleHttpServer(contextLength, port, configClazz);
         }
     }
 }

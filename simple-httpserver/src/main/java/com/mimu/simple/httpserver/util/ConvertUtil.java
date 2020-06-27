@@ -1,7 +1,7 @@
 package com.mimu.simple.httpserver.util;
 
-import com.mimu.simple.common.core.FileItem;
-import com.mimu.simple.httpserver.core.SimpleHttpRequest;
+import com.mimu.simple.httpserver.core.model.FileItem;
+import com.mimu.simple.httpserver.core.request.SimpleHttpRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

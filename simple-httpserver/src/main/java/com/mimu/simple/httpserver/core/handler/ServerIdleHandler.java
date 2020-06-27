@@ -1,4 +1,4 @@
-package com.mimu.simple.httpserver.core;
+package com.mimu.simple.httpserver.core.handler;
 
 import com.mimu.simple.httpserver.config.SimpleServerConfigManager;
 import io.netty.channel.ChannelHandlerContext;

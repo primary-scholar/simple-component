@@ -1,6 +1,7 @@
-package com.mimu.simple.httpserver.core;
+package com.mimu.simple.httpserver.core.handler;
 
-import com.mimu.simple.common.core.Info;
+import com.mimu.simple.httpserver.core.request.SimpleHttpRequest;
+import com.mimu.simple.httpserver.core.response.SimpleHttpResponse;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import org.apache.commons.lang3.StringUtils;
@@ -49,8 +50,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         String id = StringUtils.replace(UUID.randomUUID().toString(), "-", "");
         SimpleHandler handler = dispatcher.getHandler(request.getUrl());
         if (handler == null) {
-            Info info = new Info(404, "url is error");
-            response.response(info);
+            response.response("url is error");
             response.getResponse().headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.CLOSE);
             response.getResponse().headers().setInt(HttpHeaderNames.CONTENT_LENGTH, response.getResponse().content().readableBytes());
             channelHandlerContext.writeAndFlush(response.getResponse()).addListener((ChannelFutureListener) future -> {

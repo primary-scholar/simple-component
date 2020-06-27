@@ -1,13 +1,14 @@
-package com.mimu.simple.httpserver.core;
+package com.mimu.simple.httpserver.core.handler;
 
 
-import com.mimu.simple.common.util.ClassUtil;
+import com.mimu.simple.httpserver.util.ClassUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -21,23 +22,23 @@ public class HandlerDispatcher {
     private Map<String, SimpleHandler> handlerMap;
     private AnnotationConfigApplicationContext context;
 
-    public HandlerDispatcher(List<String> packages, boolean supportSpring) {
-        handlerMap = supportSpring ? getHandlerWithSpring(packages) : getHandlerByScanPackage(packages);
+    public HandlerDispatcher(Class<?> config) {
+        handlerMap = getHandlerWithSpring(config);
     }
 
     public SimpleHandler getHandler(String url) {
         return handlerMap.get(url);
     }
 
-    private Map<String, SimpleHandler> getHandlerWithSpring(List<String> packages) {
+    private Map<String, SimpleHandler> getHandlerWithSpring(Class<?> config) {
         Map<String, SimpleHandler> handlerMap = new HashMap<>();
         if (context == null) {
-            context = new AnnotationConfigApplicationContext(packages.toArray(new String[]{}));
+
+            context = new AnnotationConfigApplicationContext(config);
         }
-        Map<String, Object> controller = context.getBeansWithAnnotation(Controller.class);
-        Iterator<Map.Entry<String, Object>> iterator = controller.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Object object = iterator.next().getValue();
+        Map<String, Object> controller = context.getBeansWithAnnotation(RestController.class);
+        for (Map.Entry<String, Object> stringObjectEntry : controller.entrySet()) {
+            Object object = stringObjectEntry.getValue();
             Method[] methods = object.getClass().getDeclaredMethods();
             getHandler(handlerMap, object, methods);
         }
