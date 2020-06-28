@@ -39,7 +39,7 @@
         <spring.version>5.2.7.RELEASE</spring.version>
         <netty.version>4.1.50.Final</netty.version>
 
-        <zookeeper.version>3.4.13</zookeeper.version>
+        <zookeeper.version>3.4.14</zookeeper.version>
         <curator.version>4.1.0</curator.version>
         <archaius.core.version>0.7.5</archaius.core.version>
         <archaius.zookeeper.version>0.5.12</archaius.zookeeper.version>
