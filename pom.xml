@@ -11,6 +11,7 @@
     <modules>
         <module>simple-httpserver</module>
         <module>simple-zookeeper-reference</module>
+        <module>simple-httpserver-skywalking-plugin</module>
     </modules>
 
     <name>simple-component</name>
