@@ -14,10 +14,6 @@ public class ZKConfigResourceFactoryBean implements FactoryBean<ZKConfigOperator
         this.zkConfigResource = zkConfigResource;
     }
 
-    public void setZkConfigOperator(ZKConfigOperator zkConfigOperator) {
-        this.zkConfigOperator = zkConfigOperator;
-    }
-
     @Override
     public ZKConfigOperator getObject() throws Exception {
         if (zkConfigOperator == null) {
