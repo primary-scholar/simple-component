@@ -43,7 +43,7 @@
 
         <zookeeper.version>3.4.14</zookeeper.version>
         <curator.version>4.1.0</curator.version>
-        <!--<archaius.core.version>0.7.5</archaius.core.version>-->
+        <archaius.core.version>0.7.5</archaius.core.version>
         <archaius.zookeeper.version>0.5.12</archaius.zookeeper.version>
         <commons.configuration.version>1.10</commons.configuration.version>
 
@@ -134,11 +134,11 @@
                 <artifactId>curator-recipes</artifactId>
                 <version>${curator.version}</version>
             </dependency>
-<!--            <dependency>
+            <dependency>
                 <groupId>com.netflix.archaius</groupId>
                 <artifactId>archaius-core</artifactId>
                 <version>${archaius.core.version}</version>
-            </dependency>-->
+            </dependency>
             <dependency>
                 <groupId>com.netflix.archaius</groupId>
                 <artifactId>archaius-zookeeper</artifactId>
