@@ -1,7 +1,7 @@
-package com.mimu.simple.zkreference;
+package com.mimu.simple.zkreference.annotation;
 
-import com.mimu.simple.zkreference.interceptor.DefaultZKPropertyAttribute;
-import com.mimu.simple.zkreference.interceptor.ZKPropertyAttribute;
+import com.mimu.simple.zkreference.annotation.interceptor.DefaultZKPropertyAttribute;
+import com.mimu.simple.zkreference.annotation.interceptor.ZKPropertyAttribute;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationAttributes;
 

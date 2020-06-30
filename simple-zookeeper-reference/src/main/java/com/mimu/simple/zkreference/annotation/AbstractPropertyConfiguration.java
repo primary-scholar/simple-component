@@ -1,4 +1,4 @@
-package com.mimu.simple.zkreference;
+package com.mimu.simple.zkreference.annotation;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportAware;

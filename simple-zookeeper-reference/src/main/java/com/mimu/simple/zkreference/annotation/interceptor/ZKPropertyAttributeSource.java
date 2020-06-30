@@ -1,4 +1,4 @@
-package com.mimu.simple.zkreference.interceptor;
+package com.mimu.simple.zkreference.annotation.interceptor;
 
 import java.lang.reflect.Method;
 

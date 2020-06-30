@@ -1,4 +1,4 @@
-package com.mimu.simple.zkreference;
+package com.mimu.simple.zkreference.annotation;
 
 import java.lang.annotation.*;
 

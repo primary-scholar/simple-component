@@ -1,4 +1,4 @@
-package com.mimu.simple.zkreference.interceptor;
+package com.mimu.simple.zkreference.annotation.interceptor;
 
 import org.springframework.aop.support.AopUtils;
 import org.springframework.core.MethodClassKey;

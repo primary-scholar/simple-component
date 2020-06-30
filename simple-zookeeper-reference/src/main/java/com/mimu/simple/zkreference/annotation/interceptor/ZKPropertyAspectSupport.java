@@ -1,6 +1,7 @@
-package com.mimu.simple.zkreference.interceptor;
+package com.mimu.simple.zkreference.annotation.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
+import com.mimu.simple.zkreference.zkconfig.ZKConfigOperator;
 import com.netflix.config.DynamicStringProperty;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -8,17 +9,19 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.SmartInitializingSingleton;
 
 import java.lang.reflect.Method;
 
 /**
- author: mimu
- date: 2020/4/28
+ * author: mimu
+ * date: 2020/4/28
  */
-public class ZKPropertyAspectSupport implements BeanFactoryAware, InitializingBean {
+public class ZKPropertyAspectSupport implements BeanFactoryAware, InitializingBean, SmartInitializingSingleton {
 
     private BeanFactory beanFactory;
     private ZKPropertyAttributeSource propertyAttribute;
+    private ZKConfigOperator zkConfigOperator;
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
@@ -27,6 +30,14 @@ public class ZKPropertyAspectSupport implements BeanFactoryAware, InitializingBe
 
     public BeanFactory getBeanFactory() {
         return beanFactory;
+    }
+
+    public ZKConfigOperator getZkConfigOperator() {
+        return zkConfigOperator;
+    }
+
+    public void setZkConfigOperator(ZKConfigOperator zkConfigOperator) {
+        this.zkConfigOperator = zkConfigOperator;
     }
 
     @Override
@@ -40,11 +51,16 @@ public class ZKPropertyAspectSupport implements BeanFactoryAware, InitializingBe
 
     }
 
-    protected Object invokeWithInterceptor(Method method, Class<?> targetClass) {
+    @Override
+    public void afterSingletonsInstantiated() {
+        setZkConfigOperator(this.beanFactory.getBean(ZKConfigOperator.class));
+    }
+
+    public Object invokeWithInterceptor(Method method, Class<?> targetClass) {
         ZKPropertyAttributeSource attributeSource = getPropertyAttribute();
         ZKPropertyAttribute attribute = attributeSource != null ? attributeSource.getProperAttribute(method, targetClass) : null;
         if (attribute != null) {
-            DynamicStringProperty property = ((DefaultZKPropertyAttribute) attribute).getProperty();
+            DynamicStringProperty property = getZkConfigOperator().getString(attribute.getReference(), attribute.getValue());
             Class<?> returnType = method.getReturnType();
             return getValue(returnType, property == null ? null : property.get());
         }
@@ -84,4 +100,5 @@ public class ZKPropertyAspectSupport implements BeanFactoryAware, InitializingBe
             return null;
         }
     }
+
 }

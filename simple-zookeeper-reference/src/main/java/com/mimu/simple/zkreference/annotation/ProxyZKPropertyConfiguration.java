@@ -1,8 +1,8 @@
-package com.mimu.simple.zkreference;
+package com.mimu.simple.zkreference.annotation;
 
-import com.mimu.simple.zkreference.interceptor.BeanFactoryZKPropertyAttributeSourceAdvisor;
-import com.mimu.simple.zkreference.interceptor.ZKPropertyAttributeSource;
-import com.mimu.simple.zkreference.interceptor.ZKPropertyInterceptor;
+import com.mimu.simple.zkreference.annotation.interceptor.BeanFactoryZKPropertyAttributeSourceAdvisor;
+import com.mimu.simple.zkreference.annotation.interceptor.ZKPropertyAttributeSource;
+import com.mimu.simple.zkreference.annotation.interceptor.ZKPropertyInterceptor;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

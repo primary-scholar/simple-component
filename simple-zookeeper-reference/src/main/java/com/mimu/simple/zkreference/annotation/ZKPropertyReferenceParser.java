@@ -1,6 +1,6 @@
-package com.mimu.simple.zkreference;
+package com.mimu.simple.zkreference.annotation;
 
-import com.mimu.simple.zkreference.interceptor.ZKPropertyAttribute;
+import com.mimu.simple.zkreference.annotation.interceptor.ZKPropertyAttribute;
 
 import java.lang.reflect.AnnotatedElement;
 
