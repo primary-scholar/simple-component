@@ -58,10 +58,10 @@
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-recipes</artifactId>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>com.netflix.archaius</groupId>
             <artifactId>archaius-core</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.netflix.archaius</groupId>
             <artifactId>archaius-zookeeper</artifactId>
