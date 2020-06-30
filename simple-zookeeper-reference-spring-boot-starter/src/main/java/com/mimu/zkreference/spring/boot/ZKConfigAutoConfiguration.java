@@ -1,4 +1,4 @@
-package com.mimu.zkreference.spring.boot.autoconfigure;
+package com.mimu.zkreference.spring.boot;
 
 import com.mimu.simple.zkreference.annotation.interceptor.ZKPropertyAspectSupport;
 import com.mimu.simple.zkreference.zkconfig.ZKConfigOperator;

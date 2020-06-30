@@ -1,4 +1,4 @@
-package com.mimu.zkreference.spring.boot.autoconfigure;
+package com.mimu.zkreference.spring.boot;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
