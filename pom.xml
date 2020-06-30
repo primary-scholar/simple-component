@@ -12,6 +12,7 @@
         <module>simple-httpserver</module>
         <module>simple-zookeeper-reference</module>
         <module>simple-httpserver-skywalking-plugin</module>
+        <module>simple-zookeeper-reference-spring-boot-starter</module>
     </modules>
 
     <name>simple-component</name>
@@ -45,6 +46,8 @@
         <archaius.core.version>0.7.5</archaius.core.version>
         <archaius.zookeeper.version>0.5.12</archaius.zookeeper.version>
         <commons.configuration.version>1.10</commons.configuration.version>
+
+        <spring.boot.version>2.2.4.RELEASE</spring.boot.version>
 
         <junit.version>4.13</junit.version>
     </properties>
@@ -145,6 +148,14 @@
                 <groupId>commons-configuration</groupId>
                 <artifactId>commons-configuration</artifactId>
                 <version>${commons.configuration.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <dependency>
