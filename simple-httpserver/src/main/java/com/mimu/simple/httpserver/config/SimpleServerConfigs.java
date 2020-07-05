@@ -25,7 +25,7 @@ public class SimpleServerConfigs {
      * while use fork join pool deal the logic
      */
     public static final String FORK_JOIN_POOL_SWITCH = "server.fork.join.pool.switch";
-    public static final String FORK_JOIN_POOL_DEFAULT_DEFAULT = "true";
+    public static final String FORK_JOIN_POOL_DEFAULT_DEFAULT = "false";
 
 
 }
