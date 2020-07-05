@@ -47,7 +47,7 @@
         <archaius.zookeeper.version>0.5.12</archaius.zookeeper.version>
         <commons.configuration.version>1.10</commons.configuration.version>
 
-        <spring.boot.version>2.2.4.RELEASE</spring.boot.version>
+        <spring.boot.version>2.3.1.RELEASE</spring.boot.version>
 
         <junit.version>4.13</junit.version>
     </properties>
