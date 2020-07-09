@@ -30,6 +30,7 @@
         <maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
         <maven.install.plugin.version>3.0.0-M1</maven.install.plugin.version>
         <maven.deploy.plugin.version>3.0.0-M1</maven.deploy.plugin.version>
+        <maven.shade.plugin.version>3.2.4</maven.shade.plugin.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
@@ -46,8 +47,10 @@
         <archaius.core.version>0.7.5</archaius.core.version>
         <archaius.zookeeper.version>0.5.12</archaius.zookeeper.version>
         <commons.configuration.version>1.10</commons.configuration.version>
-
+        <skywalking.version>8.0.1</skywalking.version>
         <spring.boot.version>2.3.1.RELEASE</spring.boot.version>
+
+        <simpleserver.version>1.0-SNAPSHOT</simpleserver.version>
 
         <junit.version>4.13</junit.version>
     </properties>
@@ -151,6 +154,19 @@
             </dependency>
 
             <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-agent-core</artifactId>
+                <version>${skywalking.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.mimu.simple</groupId>
+                <artifactId>simple-httpserver</artifactId>
+                <version>${simpleserver.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring.boot.version}</version>
@@ -210,6 +226,11 @@
                 <plugin>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>${maven.source.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>${maven.shade.plugin.version}</version>
                 </plugin>
 
                 <plugin>

@@ -1,0 +1,1 @@
+simpleserver-2.x=org.apache.skywalking.apm.plugin.simple.server.define.HttpServerHandlerInstrumentation
