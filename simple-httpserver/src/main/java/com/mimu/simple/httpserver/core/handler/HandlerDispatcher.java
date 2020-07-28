@@ -19,21 +19,20 @@ import java.util.*;
  */
 public class HandlerDispatcher {
     private static final Logger logger = LoggerFactory.getLogger(HandlerDispatcher.class);
-    private Map<String, SimpleHandler> handlerMap;
+    private Map<String, ActionHandler> handlerMap;
     private AnnotationConfigApplicationContext context;
 
     public HandlerDispatcher(Class<?> config) {
         handlerMap = getHandlerWithSpring(config);
     }
 
-    public SimpleHandler getHandler(String url) {
+    public ActionHandler getHandler(String url) {
         return handlerMap.get(url);
     }
 
-    private Map<String, SimpleHandler> getHandlerWithSpring(Class<?> config) {
-        Map<String, SimpleHandler> handlerMap = new HashMap<>();
+    private Map<String, ActionHandler> getHandlerWithSpring(Class<?> config) {
+        Map<String, ActionHandler> handlerMap = new HashMap<>();
         if (context == null) {
-
             context = new AnnotationConfigApplicationContext(config);
         }
         Map<String, Object> controller = context.getBeansWithAnnotation(RestController.class);
@@ -54,8 +53,8 @@ public class HandlerDispatcher {
      * @param packages
      * @return
      */
-    private Map<String, SimpleHandler> getHandlerByScanPackage(List<String> packages) {
-        Map<String, SimpleHandler> handlerMap = new HashMap<>();
+    private Map<String, ActionHandler> getHandlerByScanPackage(List<String> packages) {
+        Map<String, ActionHandler> handlerMap = new HashMap<>();
         Set<Class<?>> classSet = ClassUtil.getClasses(packages);
         for (Class<?> clazz : classSet) {
             if (clazz.isAnnotationPresent(Controller.class)) {
@@ -71,7 +70,7 @@ public class HandlerDispatcher {
         return handlerMap;
     }
 
-    private void getHandler(Map<String, SimpleHandler> handlerMap, Object object, Method[] methods) {
+    private void getHandler(Map<String, ActionHandler> handlerMap, Object object, Method[] methods) {
         for (Method method : methods) {
             if (method.isAnnotationPresent(RequestMapping.class)) {
                 //String request  = method.getDeclaredAnnotation(SimpleRequestUrl.class).value();
@@ -79,7 +78,7 @@ public class HandlerDispatcher {
                   here we use spring AnnotationUtils get the alias field value in a annotation class
                  */
                 String request = AnnotationUtils.getAnnotation(method, RequestMapping.class).value()[0];
-                SimpleHandler handler = new SimpleHandler();
+                ActionHandler handler = new ActionHandler();
                 handler.setObject(object);
                 handler.setMethod(method);
                 handlerMap.put(request, handler);

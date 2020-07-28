@@ -32,7 +32,9 @@ public class SimpleHttpResponse {
     }
 
     public void response(Object result) {
-        response(JSONObject.toJSONString(result));
+        if (result != null) {
+            response(JSONObject.toJSONString(result));
+        }
     }
 
     public void response(String result) {

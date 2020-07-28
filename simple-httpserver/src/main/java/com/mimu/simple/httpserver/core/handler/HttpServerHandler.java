@@ -48,7 +48,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 
     public void process(SimpleHttpRequest request, SimpleHttpResponse response, ChannelHandlerContext channelHandlerContext, long startTime) {
         String id = StringUtils.replace(UUID.randomUUID().toString(), "-", "");
-        SimpleHandler handler = dispatcher.getHandler(request.getUrl());
+        ActionHandler handler = dispatcher.getHandler(request.getUrl());
         if (handler == null) {
             response.response("url is error");
             response.getResponse().headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.CLOSE);

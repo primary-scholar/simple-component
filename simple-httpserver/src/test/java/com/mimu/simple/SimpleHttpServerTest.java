@@ -28,7 +28,7 @@ public class SimpleHttpServerTest {
     }
 
     public static void main(String[] args) {
-        SimpleHttpServer server = SimpleHttpServer.getServer().config(AppConfig.class).port(9091).create();
+        SimpleHttpServer server = SimpleHttpServer.getServer().config(AppConfig.class).port(19091).create();
         server.startServer();
     }
 }
