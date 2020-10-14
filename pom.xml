@@ -52,7 +52,7 @@
 
         <simpleserver.version>1.0-SNAPSHOT</simpleserver.version>
 
-        <junit.version>4.13</junit.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <dependencyManagement>
